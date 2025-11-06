@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Menu Viewer</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+    <h1>Menu Viewer</h1>
+    <div class="frame-container">
+        {{range .Sites}}
+        <iframe src="{{.}}" title="Menu"></iframe>
+        {{end}}
+    </div>
+</body>
+
+</html>
