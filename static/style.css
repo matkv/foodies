@@ -8,10 +8,29 @@ body {
 .frame-container {
     display: flex;
     gap: 1rem;
+    flex-wrap: nowrap;
+    /* keep items in one row */
+    overflow-x: auto;
+    /* enable horizontal scrolling */
+    overflow-y: hidden;
+    max-width: 100%;
+    -webkit-overflow-scrolling: touch;
+    /* smooth scrolling on iOS */
+    padding-bottom: 0.25rem;
+    /* avoid scrollbar overlapping content */
 }
 
 iframe {
-    flex: 1;
+    /*
+     * Size each card to about one-third of the container width, but slightly wider
+     * so two fit fully and the third is visibly peeking to hint at horizontal scroll.
+     * Using (100% - 1rem) accounts for the single gap between the first two items;
+     * this makes each card a bit wider than an exact third, so the third isn't fully visible.
+     */
+    flex: 0 0 calc((100% - 1rem) / 3);
+    width: calc((100% - 1rem) / 3);
+    min-width: 320px;
+    /* keep content readable on narrow screens */
     height: 90vh;
     border: 1px solid #ccc;
     border-radius: 8px;
