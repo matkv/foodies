@@ -1,4 +1,49 @@
 (function () {
+    /* ── Dark mode toggle ── */
+    const STORAGE_KEY = 'foodies-theme';
+    const toggle = document.getElementById('theme-toggle');
+
+    function applyTheme(dark) {
+        document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+        if (toggle) {
+            const label = dark ? 'Switch to light mode' : 'Switch to dark mode';
+            toggle.setAttribute('aria-label', label);
+            toggle.setAttribute('title', label);
+        }
+    }
+
+    function getSavedTheme() {
+        try {
+            return localStorage.getItem(STORAGE_KEY);
+        } catch (e) {
+            return null;
+        }
+    }
+
+    function saveTheme(dark) {
+        try {
+            localStorage.setItem(STORAGE_KEY, dark ? 'dark' : 'light');
+        } catch (e) {
+            /* storage unavailable – silently ignore */
+        }
+    }
+
+    /* Initialise: saved preference → OS preference → light */
+    const saved = getSavedTheme();
+    const prefersDark = saved
+        ? saved === 'dark'
+        : window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    applyTheme(prefersDark);
+
+    if (toggle) {
+        toggle.addEventListener('click', function () {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            applyTheme(!isDark);
+            saveTheme(!isDark);
+        });
+    }
+
+    /* ── Frame loader ── */
     const container = document.getElementById('frame-container');
     if (!container) { return; }
 
