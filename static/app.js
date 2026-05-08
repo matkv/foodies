@@ -47,14 +47,31 @@
     const container = document.getElementById('frame-container');
     if (!container) { return; }
 
-    function renderFrames(urls) {
-        urls.forEach((url) => {
-            const iframe = document.createElement('iframe');
-            iframe.title = 'Menu';
-            iframe.loading = 'lazy';
-            iframe.referrerPolicy = 'no-referrer-when-downgrade';
-            iframe.src = url;
-            container.appendChild(iframe);
+    function renderFrames(sites) {
+        sites.forEach((site) => {
+            if (site && typeof site === 'object' && site.type === 'html') {
+                const div = document.createElement('div');
+                div.className = 'html-panel';
+                if (site.label) {
+                    const h2 = document.createElement('h2');
+                    h2.className = 'html-panel__label';
+                    h2.textContent = site.label;
+                    div.appendChild(h2);
+                }
+                const content = document.createElement('div');
+                content.className = 'html-panel__content';
+                content.innerHTML = site.content || '';
+                div.appendChild(content);
+                container.appendChild(div);
+            } else {
+                const url = typeof site === 'string' ? site : site.url;
+                const iframe = document.createElement('iframe');
+                iframe.title = 'Menu';
+                iframe.loading = 'lazy';
+                iframe.referrerPolicy = 'no-referrer-when-downgrade';
+                iframe.src = url;
+                container.appendChild(iframe);
+            }
         });
     }
 

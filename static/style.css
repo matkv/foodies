@@ -97,3 +97,26 @@ iframe {
     border: 1px solid var(--border-color);
     border-radius: 8px;
 }
+
+/* ── Inline HTML panels ── */
+.html-panel {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1rem;
+    height: 90vh;
+    overflow-y: auto;
+    background: var(--bg-color);
+    box-sizing: border-box;
+}
+
+.html-panel__label {
+    margin: 0 0 0.75rem 0;
+    font-size: 1.1rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.5rem;
+}
+
+.html-panel__content {
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
