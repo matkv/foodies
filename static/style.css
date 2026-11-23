@@ -120,3 +120,23 @@ iframe {
     font-size: 0.95rem;
     line-height: 1.5;
 }
+/* ── Image panels (e.g. menu images from Facebook) ── */
+.image-panel {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    height: 90vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    box-sizing: border-box;
+    background: var(--bg-color);
+}
+
+.image-panel a {
+    display: block;
+}
+
+.image-panel img {
+    display: block;
+    width: 100%;
+    height: auto;
+}

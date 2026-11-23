@@ -47,9 +47,39 @@
     const container = document.getElementById('frame-container');
     if (!container) { return; }
 
+    const IMAGE_URL_RE = /\.(png|jpe?g|gif|webp|avif)(\?|#|$)/i;
+
+    function isImage(site, url) {
+        if (site && typeof site === 'object' && site.type === 'image') { return true; }
+        try {
+            return IMAGE_URL_RE.test(new URL(url, location.href).pathname);
+        } catch (e) {
+            return false;
+        }
+    }
+
     function renderFrames(sites) {
         sites.forEach((site) => {
-            if (site && typeof site === 'object' && site.type === 'html') {
+            const siteUrl = typeof site === 'string' ? site : (site && site.url);
+            if (siteUrl && isImage(site, siteUrl)) {
+                /* Images in an iframe are shown at natural size (no shrink-to-fit),
+                   so render them as <img> scaled to the panel width instead. */
+                const panel = document.createElement('div');
+                panel.className = 'image-panel';
+                const link = document.createElement('a');
+                link.href = siteUrl;
+                link.target = '_blank';
+                link.rel = 'noopener noreferrer';
+                link.title = 'Open full image';
+                const img = document.createElement('img');
+                img.src = siteUrl;
+                img.alt = 'Menu';
+                img.loading = 'lazy';
+                img.referrerPolicy = 'no-referrer';
+                link.appendChild(img);
+                panel.appendChild(link);
+                container.appendChild(panel);
+            } else if (site && typeof site === 'object' && site.type === 'html') {
                 const div = document.createElement('div');
                 div.className = 'html-panel';
                 if (site.label) {
